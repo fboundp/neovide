@@ -30,7 +30,7 @@ use winit::platform::windows::WindowAttributesExtWindows;
 use winit::platform::macos::EventLoopBuilderExtMacOS;
 
 #[cfg(target_os = "macos")]
-use macos::register_file_handler;
+use macos::customize_app_delegate;
 
 use image::{load_from_memory, GenericImageView, Pixel};
 use keyboard_manager::KeyboardManager;
@@ -123,7 +123,7 @@ pub fn create_event_loop() -> EventLoop<UserEvent> {
     builder.with_default_menu(false);
     let event_loop = builder.build().expect("Failed to create winit event loop");
     #[cfg(target_os = "macos")]
-    register_file_handler();
+    customize_app_delegate();
     #[allow(clippy::let_and_return)]
     event_loop
 }

@@ -448,7 +448,7 @@ impl Menu {
     }
 }
 
-pub fn register_file_handler() {
+pub fn customize_app_delegate() {
     unsafe extern "C" fn handle_open_files(
         _this: &mut AnyObject,
         _sel: objc2::runtime::Sel,
@@ -461,6 +461,13 @@ pub fn register_file_handler() {
                 send_ui(ParallelCommand::FileDrop(path));
             }
         });
+    }
+    unsafe extern "C" fn enable_secure_coding(
+        _this: &mut AnyObject,
+        _sel: objc2::runtime::Sel,
+        _sender: &objc2::runtime::AnyObject,
+    ) {
+        true;
     }
 
     let mtm = MainThreadMarker::new().expect("File handler must be registered on main thread.");
@@ -477,6 +484,10 @@ pub fn register_file_handler() {
         my_class.add_method(
             sel!(application:openFiles:),
             handle_open_files as unsafe extern "C" fn(_, _, _, _) -> _,
+        );
+        my_class.add_method(
+            sel!(applicationSupportsSecureRestorableState:),
+            enable_secure_coding as unsafe extern "C" fn(_, _, _) -> _,
         );
         let class = my_class.register();
 
