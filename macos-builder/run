@@ -9,6 +9,9 @@ fi
 RELEASE_DIR=${TARGET_ARCHITECTURE:+target/${TARGET_ARCHITECTURE}/release}
 RELEASE_DIR=${RELEASE_DIR:-target/release}
 
+MACOSX_DEPLOYMENT_TARGET=${MACOSX_DEPLOYMENT_TARGET:-11.0}
+export MACOSX_DEPLOYMENT_TARGET
+
 if [ ! -d "${RELEASE_DIR}" ]; then
   echo "Release directory '${RELEASE_DIR}' does not exist."
   echo "Running 'cargo build --release${TARGET_ARCHITECTURE:+ --target ${TARGET_ARCHITECTURE}}' ..."
